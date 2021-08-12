@@ -9,8 +9,16 @@ import (
 )
 
 func main() {
-	addr := flag.Int("addr", 8080, "address to serve at")
+	var addr string
+	port := flag.Int("port", 8080, "Address to serve at")
+	pub := flag.Bool("pub", false, "Serve on public interface")
 	flag.Parse()
+
+	if *pub {
+		addr = fmt.Sprintf("0.0.0.0:%d", *port)
+	} else {
+		addr = fmt.Sprintf("localhost:%d", *port)
+	}
 
 	cwd, err := os.Getwd()
 	if err != nil {
@@ -18,6 +26,6 @@ func main() {
 	}
 
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(cwd))))
-	log.Printf("serving at localhost:%d", *addr)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *addr), nil))
+	log.Printf("serving at %s", addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
