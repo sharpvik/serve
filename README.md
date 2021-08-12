@@ -3,9 +3,9 @@
 Serve local directory.
 
 ```bash
-go install
+go install github.com/sharpvik/serve
 
-serve
-
-serve -addr=8000
+serve       # DEFAULT => http://localhost:8080/
+# or
+serve -port=8000 -pub # => http://0.0.0.0:8000/
 ```
