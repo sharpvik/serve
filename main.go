@@ -10,7 +10,7 @@ import (
 
 func main() {
 	var addr string
-	port := flag.Int("port", 8080, "Address to serve at")
+	port := flag.Int("port", 8888, "Address to serve at")
 	pub := flag.Bool("pub", false, "Serve on public interface")
 	flag.Parse()
 
@@ -26,6 +26,6 @@ func main() {
 	}
 
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(cwd))))
-	log.Printf("serving at %s", addr)
+	log.Printf("serving at http://%s", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
