@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -46,11 +47,15 @@ var (
 )
 
 func action(c *cli.Context) error {
-	return server(dir).Start(addr(share, port))
+	address := addr(share, port)
+	fmt.Println("Server started at http://" + address)
+	return server(dir).Start(address)
 }
 
 func server(dir string) *echo.Echo {
 	e := echo.New()
+	e.HideBanner = true
+	e.HidePort = true
 	e.Use(
 		middleware.Recover(),
 		middleware.Logger(),
